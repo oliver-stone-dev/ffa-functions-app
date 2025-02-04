@@ -19,7 +19,7 @@ public class ReviewAddFunction
     }
 
     [Function("ReviewAddFunction")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.User, "post", Route = "reviews")] 
+    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "reviews")] 
     HttpRequest req,
     [FromBody] ReviewDTO review)
     {

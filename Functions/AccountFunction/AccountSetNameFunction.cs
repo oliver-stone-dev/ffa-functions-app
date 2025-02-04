@@ -20,7 +20,7 @@ namespace ffa_functions_app.Functions.AccountFunction
         }
 
         [Function("AccountSetNameFunction")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.User, "post", Route = "account/displayname")] 
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "account/displayname")] 
         HttpRequest req,
         [FromBody] AccountRegisterDTO accountRegister)
         {

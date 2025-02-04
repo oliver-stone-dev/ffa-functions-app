@@ -20,7 +20,7 @@ public class GetAuthnAccountFunction
     }
 
     [Function("GetAuthnAccountFunction")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.User, "get" ,Route = "account" )] HttpRequest req)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get" ,Route = "account" )] HttpRequest req)
     {
         _logger.LogInformation("Return authenticated account details");
         return new NotFoundResult();

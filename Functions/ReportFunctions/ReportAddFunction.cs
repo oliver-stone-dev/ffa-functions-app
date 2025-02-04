@@ -19,7 +19,7 @@ public class ReportAddFunction
     }
 
     [Function("ReportAddFunction")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.User, "post", Route = "report")] 
+    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "report")] 
         HttpRequest req, 
         [FromBody] ReportDTO report)
     {

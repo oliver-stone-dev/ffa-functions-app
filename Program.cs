@@ -10,7 +10,7 @@ using System.Configuration;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
-    .ConfigureServices((hostContext,services) =>
+    .ConfigureServices((hostContext, services) =>
     {
         var environment = hostContext.HostingEnvironment;
 
@@ -43,15 +43,20 @@ var host = new HostBuilder()
             });
         }
 
-        services.AddApplicationInsightsTelemetryWorkerService();
-        services.ConfigureFunctionsApplicationInsights();
-
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")));
+
+        services.AddIdentity<Account, IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
 
         services.AddScoped<IAirportService, AirportService>();
         services.AddScoped<IReportService, ReportService>();
         services.AddScoped<IReviewService, ReviewService>();
+        services.AddTransient<ITokenProviderService,TokenProviderService>();
+
+        services.AddApplicationInsightsTelemetryWorkerService();
+        services.ConfigureFunctionsApplicationInsights();
 
     })
     .Build();
