@@ -22,7 +22,7 @@ public class AccountExistsFunction
     public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "account/exists")] HttpRequest req)
     {
         var email = req.Query["email"];
-        _logger.LogInformation("Confirm accoutn exists");
+        _logger.LogInformation("Confirm account exists");
         return new OkObjectResult(await _userManager.FindByEmailAsync(email!) != null);
     }
 }

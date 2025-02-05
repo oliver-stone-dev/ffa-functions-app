@@ -18,7 +18,7 @@ public class ReportAllFunction
     }
 
     [Function("ReportAllFunction")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "reports")] HttpRequest req)
+    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "report")] HttpRequest req)
     {
         _logger.LogInformation("Request all reports");
 

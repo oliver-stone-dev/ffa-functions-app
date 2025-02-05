@@ -22,7 +22,7 @@ public class AirportStatsByIdFunction
     }
 
     [Function("AirportStatsByIdFunction")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "airport/{id}/stats")] HttpRequest req, int id)
+    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "airports/{id}/stats")] HttpRequest req, int id)
     {
         _logger.LogInformation($"Requesting Airport stats for {id}");
 

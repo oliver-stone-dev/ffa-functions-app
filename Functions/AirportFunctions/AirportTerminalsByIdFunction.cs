@@ -19,13 +19,13 @@ public class AirportTerminalsByIdFunction
     }
 
     [Function("AirportTerminalsByIdFunction")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "airport/{id}/terminals")] 
+    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "airports/{id}/terminals")] 
     HttpRequest req,
     int id)
     {
         _logger.LogInformation($"Request Airport Terminals for id {id}");
 
-        var terminalId = req.Query["terminalId"];
+        var terminalId = Convert.ToInt32(req.Query["terminalId"]);
 
         var data = _airportService.GetTerminalsByAirportId(id);
 

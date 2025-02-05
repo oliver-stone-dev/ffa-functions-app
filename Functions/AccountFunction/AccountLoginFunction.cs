@@ -1,11 +1,13 @@
+using ffa_functions_app.DataTransferObjects;
 using ffa_functions_app.Models;
 using ffa_functions_app.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
+using FromBodyAttribute = Microsoft.Azure.Functions.Worker.Http.FromBodyAttribute;
+
 
 namespace ffa_functions_app.Functions.AccountFunction;
 
@@ -26,28 +28,37 @@ public class AccountLoginFunction
     }
 
     [Function("AccountLoginFunction")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "account/login")] 
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "login")] 
     HttpRequest req,
-    [FromBody] string email,
-    [FromBody] string password)
+    [FromBody] LoginDTO loginDTO)
     {
         var token = string.Empty;
         _logger.LogInformation("Request login");
 
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+        if (loginDTO == null)
+        {
+            return new BadRequestResult();
+        }
+
+        if (string.IsNullOrEmpty(loginDTO.Email))
+        {
+            return new NotFoundResult();
+        }
+
+        if (string.IsNullOrEmpty(loginDTO.Password))
         {
             return new NotFoundResult();
         }
 
         try
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(loginDTO.Email);
             if (user == null)
             {
                 return new NotFoundResult();
             }
 
-            var passwordValid = await _userManager.CheckPasswordAsync(user, password);
+            var passwordValid = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
             if (passwordValid == false)
             {
                 return new UnauthorizedResult();
@@ -59,7 +70,13 @@ public class AccountLoginFunction
         {
             _logger.LogInformation($"Excepion {e.Message}");
         }
+
+        var tokenDto = new TokenDTO
+        {
+            TokenType = "Bearer",
+            AccessToken = token
+        };
         
-        return new OkObjectResult(token);
+        return new OkObjectResult(tokenDto);
     }
 }

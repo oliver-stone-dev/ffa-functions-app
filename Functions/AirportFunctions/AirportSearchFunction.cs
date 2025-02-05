@@ -18,7 +18,7 @@ public class AirportSearchFunction
     }
 
     [Function("AirportSearchFunction")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route ="airport")] HttpRequest req)
+    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route ="airports")] HttpRequest req)
     {
         _logger.LogInformation("Search for airport request.");
 

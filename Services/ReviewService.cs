@@ -53,6 +53,8 @@ public class ReviewService : IReviewService
 
         try
         {
+            if (maxReturn == 0) maxReturn = 1;
+
             reviews = _database.Reviews
             .Where(r => 
                 (airportId == 0 || r.Terminal != null && r.Terminal.AirportId == airportId) &&
@@ -116,6 +118,8 @@ public class ReviewService : IReviewService
                 .ToList();
 
             var positiveReviews = airportReviews.Where(r => r.Recommended == true).ToList().Count();
+
+            if (airportReviews.Count() == 0) return 0;
 
             return (double)positiveReviews / (double)airportReviews.Count();
         }
