@@ -14,7 +14,7 @@ var host = new HostBuilder()
         var environment = hostContext.HostingEnvironment;
 
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")));
+            options.UseSqlServer(Environment.GetEnvironmentVariable("AzureSQLConnectionString")));
 
         services.AddIdentity<Account, IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
@@ -23,7 +23,7 @@ var host = new HostBuilder()
         services.AddScoped<IAirportService, AirportService>();
         services.AddScoped<IReportService, ReportService>();
         services.AddScoped<IReviewService, ReviewService>();
-        services.AddTransient<ITokenProviderService,TokenProviderService>();
+        services.AddTransient<ITokenProviderService, TokenProviderService>();
         services.AddTransient<ITokenAuthenticationService, TokenAuthenticationService>();
 
         services.AddApplicationInsightsTelemetryWorkerService();
